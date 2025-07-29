@@ -1,0 +1,50 @@
+package com.practice.expensescontrol.dto;
+
+import java.time.LocalDate;
+
+import com.practice.expensescontrol.entities.Item;
+
+public class ItemDTO {
+	
+	private Long id;
+	private String description;
+	private Double amount;
+	private LocalDate date;
+	private Long categoryId;
+	
+	public ItemDTO(Long id, String description, Double amount, LocalDate date, Long categoryId) {
+		this.id = id;
+		this.description = description;
+		this.amount = amount;
+		this.date = date;
+		this.categoryId = categoryId;
+	}
+	
+	public ItemDTO(Item item) {
+		id = item.getId();
+		description = item.getDescription();
+		amount = item.getAmount();
+		date = item.getDate();
+		categoryId = item.getCategory().getId();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+}

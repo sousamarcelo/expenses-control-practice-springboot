@@ -56,12 +56,12 @@ public class Item {
 		this.description = description;
 	}
 
-	public Double getValue() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setValue(Double value) {
-		this.amount = value;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
 	public LocalDate getDate() {
