@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.practice.expensescontrol.dto.ItemDTO;
+import com.practice.expensescontrol.entities.Category;
 import com.practice.expensescontrol.entities.Item;
+import com.practice.expensescontrol.repository.CategoryRepository;
 import com.practice.expensescontrol.repository.ItemRepository;
 
 
@@ -18,6 +20,9 @@ public class ItemService {
 	
 	@Autowired
 	private ItemRepository itemRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	@Transactional(readOnly = true)
 	public ItemDTO findById(Long id) {
@@ -31,5 +36,18 @@ public class ItemService {
 	public Page<ItemDTO> findAll(Pageable pageable){
 		Page<Item> result = itemRepository.findAll(pageable);
 		return result.map(x -> new ItemDTO(x));
+	}
+	
+	@Transactional
+	public ItemDTO insert(ItemDTO dto) {
+		Item entity = new Item();
+		entity.setDescription(dto.getDescription());
+		entity.setAmount(dto.getAmount());
+		entity.setDate(dto.getDate());
+		Category cat = categoryRepository.getReferenceById(dto.getCategoryId());
+		entity.setCategory(cat);		
+		entity = itemRepository.save(entity);
+		
+		return new ItemDTO(entity);
 	}
 }
