@@ -12,6 +12,9 @@ public class ItemDTO {
 	private LocalDate date;
 	private Long categoryId;
 	
+	public ItemDTO() {		
+	}
+	
 	public ItemDTO(Long id, String description, Double amount, LocalDate date, Long categoryId) {
 		this.id = id;
 		this.description = description;
