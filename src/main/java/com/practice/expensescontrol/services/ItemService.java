@@ -50,4 +50,15 @@ public class ItemService {
 		
 		return new ItemDTO(entity);
 	}
+	
+	@Transactional
+	public ItemDTO update(Long id, ItemDTO dto) {
+		Item entity = itemRepository.getReferenceById(id);
+		entity.setDescription(dto.getDescription());
+		entity.setAmount(dto.getAmount());
+		entity.setDate(dto.getDate());
+		entity.setCategory(categoryRepository.getReferenceById(dto.getCategoryId()));
+		return new ItemDTO(entity);
+	}
+	
 }

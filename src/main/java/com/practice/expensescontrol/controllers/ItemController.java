@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ import com.practice.expensescontrol.services.ItemService;
 public class ItemController {
 	
 	@Autowired
-	private ItemService itemService;
+	private ItemService itemService;	
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ItemDTO> findById(@PathVariable Long id){
@@ -41,6 +42,12 @@ public class ItemController {
 		dto = itemService.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<ItemDTO> update(@PathVariable Long id, @RequestBody ItemDTO dto){
+		dto = itemService.update(id, dto);
+		return ResponseEntity.ok(dto);
 	}
 
 }
