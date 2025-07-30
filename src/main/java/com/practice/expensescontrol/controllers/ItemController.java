@@ -18,6 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.practice.expensescontrol.dto.ItemDTO;
 import com.practice.expensescontrol.services.ItemService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/items")
 public class ItemController {
@@ -38,14 +40,14 @@ public class ItemController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ItemDTO> insert(@RequestBody ItemDTO dto){
+	public ResponseEntity<ItemDTO> insert(@Valid @RequestBody ItemDTO dto){
 		dto = itemService.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<ItemDTO> update(@PathVariable Long id, @RequestBody ItemDTO dto){
+	public ResponseEntity<ItemDTO> update(@PathVariable Long id,@Valid @RequestBody ItemDTO dto){
 		dto = itemService.update(id, dto);
 		return ResponseEntity.ok(dto);
 	}

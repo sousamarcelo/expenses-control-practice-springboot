@@ -4,10 +4,18 @@ import java.time.LocalDate;
 
 import com.practice.expensescontrol.entities.Item;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+
+
+
 public class ItemDTO {
 	
 	private Long id;
+	@NotBlank(message = "Campo obrigatório")
 	private String description;
+	
+	@Positive(message = "O preço deve ser positivo")
 	private Double amount;
 	private LocalDate date;
 	private Long categoryId;
@@ -16,8 +24,8 @@ public class ItemDTO {
 	}
 	
 	public ItemDTO(Long id, String description, Double amount, LocalDate date, Long categoryId) {
-		this.id = id;
-		this.description = description;
+		this.id = id;		
+		this.description = description;		
 		this.amount = amount;
 		this.date = date;
 		this.categoryId = categoryId;
