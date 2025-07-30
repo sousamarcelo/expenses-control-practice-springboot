@@ -3,6 +3,7 @@ package com.practice.expensescontrol.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,10 @@ import com.practice.expensescontrol.entities.Category;
 import com.practice.expensescontrol.entities.Item;
 import com.practice.expensescontrol.repository.CategoryRepository;
 import com.practice.expensescontrol.repository.ItemRepository;
+import com.practice.expensescontrol.services.exceptions.DataBaseException;
+import com.practice.expensescontrol.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 
 @Service
@@ -53,12 +58,20 @@ public class ItemService {
 	
 	@Transactional
 	public ItemDTO update(Long id, ItemDTO dto) {
+		try {
 		Item entity = itemRepository.getReferenceById(id);
 		entity.setDescription(dto.getDescription());
 		entity.setAmount(dto.getAmount());
 		entity.setDate(dto.getDate());
-		entity.setCategory(categoryRepository.getReferenceById(dto.getCategoryId()));
+		if (itemRepository.existsById(dto.getCategoryId())) {
+			entity.setCategory(categoryRepository.getReferenceById(dto.getCategoryId()));
+		} else {
+			throw new DataBaseException("Categoria não encontrada");
+		}
 		return new ItemDTO(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Item não encontrado");
+		}
 	}
 	
 }

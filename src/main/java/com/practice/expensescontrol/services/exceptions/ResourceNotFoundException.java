@@ -1,9 +1,9 @@
 package com.practice.expensescontrol.services.exceptions;
 
-public class DataBaseException extends RuntimeException {
+public class ResourceNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public DataBaseException(String message) {
+	public ResourceNotFoundException(String message) {
 		super(message);
 	}
 }
